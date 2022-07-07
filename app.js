@@ -1,4 +1,4 @@
-const {Client, LocalAuth} = require('whatsapp-web.js');
+const {Client, List} = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const {default: ora} = import('ora');
 const {default: chalk} = import('chalk');
@@ -79,7 +79,32 @@ const listenMessage = () =>{
         const {from, to, body} = msg;
 
         console.log(from, to, body);
-        sendMessage(from, 'Hola');
+        if(body.toLowerCase() == 'hola')
+        {
+            const productsList = new List(
+                //Body
+                "Here's our list of products at 50% off",
+                //Button to see the list
+                "View all products",
+                [
+                  {
+                    //Title of the list
+                    title: "Products list",
+                    //Array
+                    rows: [
+                      { id: "apple", title: "Apple" },
+                      { id: "mango", title: "Mango" },
+                      { id: "banana", title: "Banana" },
+                    ],
+                  },
+                ],
+                //title of the list
+                "Please select a product"
+            ); 
+            sendMessage(from, productsList);
+        }
+        
+
     });
 }
 
